@@ -2,9 +2,23 @@ package game;
 
 public class Game {
 	
-	public Board board = new Board();
-	public int curBoard = -1;
-	public int curPiece = Board.X_PIECE;
+	public Board board;
+	public int curBoard;
+	public int curPiece;
+	public boolean isFinished;
+	
+	public void init() {
+		for (int i = 0; i < 9; i++) 
+			for (int j = 0; j < 9; j++)
+				board.board[i][j] = Board.EMPTY;
+		curBoard = -1;
+		curPiece = Board.X_PIECE;
+		isFinished = false;
+	}
+	
+	public void setToFinished() {
+		isFinished = true;
+	}
 	
 	public void setCurBoard(int curBoard) {
 		this.curBoard = curBoard;
@@ -29,6 +43,10 @@ public class Game {
 	
 	public int getBoardPiece(int board, int pos) {
 		return this.board.board[board][pos];
+	}
+	
+	public boolean isFinished() {
+		return this.isFinished;
 	}
 	
 	public class Board {
