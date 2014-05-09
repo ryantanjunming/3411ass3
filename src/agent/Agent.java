@@ -2,18 +2,25 @@ package agent;
 
 import java.util.Random;
 
+import utilities.Timer;
 import game.Game;
-import game.Game.Board;
 import game.GameIO;
 
 public class Agent {
 	
+	public static final double INITIAL_TIME = 30.0;
+	public static final double TIME_PER_TURN = 2.0;
+	
 	Game g;
 	GameIO io;
+	Timer t = new Timer();
+	//time in seconds
+	double timeLeft = INITIAL_TIME;
 	
 	public Agent(Game g, GameIO io) {
 		this.g = g;
 		this.io = io;
+		t.start();
 	}
 	
 	public void run() {
@@ -30,6 +37,16 @@ public class Agent {
 			move = (new Random()).nextInt() % 10 + 1;
 		}
 		return move;
+	}
+	
+	
+	public int getMove() {
+		timeLeft += TIME_PER_TURN;
+		t.update();
+		
+		
+		timeLeft -= t.getTimeS();
+		return 0;
 	}
 	
 	public static void main(String[] args) {
