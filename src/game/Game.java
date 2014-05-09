@@ -33,7 +33,7 @@ public class Game {
 	}
 	
 	public void addPiece(int pos) {
-		board[curBoard][pos] = this.curPiece;
+		board[curBoard][pos-1] = this.curPiece;
 		curPiece ^= 1;
 	}
 	
