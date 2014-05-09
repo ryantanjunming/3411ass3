@@ -56,7 +56,8 @@ public class Agent {
 		for (int move = 0; move < 9; move++) {
 			if (g.board[g.curBoard][move] == Game.EMPTY) {
 				g.board[g.curBoard][move] = Game.X_PIECE;
-	
+				
+				
 				//double value = alphaBetaSearch(BAD_MOVE_VALUE, -BAD_MOVE_VALUE, move, )
 				g.board[g.curBoard][move] = Game.EMPTY;
 			}

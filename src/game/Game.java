@@ -52,4 +52,5 @@ public class Game {
 	public boolean isFinished() {
 		return this.isFinished;
 	}
+	
 }
