@@ -28,7 +28,7 @@ public class Agent {
 	
 	public static void main(String[] args) {
 		Game g = new Game();
-		GameIO io = new GameIO(g);
+		GameIO io = new GameIO(g, args);
 		new Agent(g, io);
 	}
 }
