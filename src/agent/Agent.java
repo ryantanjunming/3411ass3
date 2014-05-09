@@ -6,11 +6,12 @@ import utilities.Timer;
 import game.Game;
 import game.GameIO;
 
-public class Agent {
+public class Agent implements Runnable {
 	
 	public static final double INITIAL_TIME = 30.0;
 	public static final double TIME_PER_TURN = 2.0;
 	
+	Thread thread;
 	
 	Game g;
 	GameIO io;
@@ -25,6 +26,8 @@ public class Agent {
 		this.g = g;
 		this.io = io;
 		t.start();
+		thread = new Thread(this, "Game");
+		thread.start();
 	}
 	
 	public void run() {
