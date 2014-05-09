@@ -49,6 +49,7 @@ public class Game {
 		return this.board[board][pos];
 	}
 	
+	
 	public boolean isFinished() {
 		return this.isFinished;
 	}
