@@ -1,11 +1,12 @@
 package game;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.HashMap;
@@ -16,10 +17,9 @@ public class GameIO {
 	
 	public Game g;
 	public Socket socket;
-	public ObjectOutputStream out;
+	public ObjectOutput out;
  	public ObjectInputStream in;
 	public Map<String, Method> methodMap;
-	
 	
 	public GameIO(Game g, String[] args){
 		
@@ -37,7 +37,6 @@ public class GameIO {
 			methodMap.put("draw", this.getClass().getMethod("game_draw"));
 			methodMap.put("end", this.getClass().getMethod("game_end"));
 			
-			
 		}catch(NoSuchMethodException e){
 			e.printStackTrace();
 		}
@@ -47,20 +46,37 @@ public class GameIO {
 			if(args[0].equals("-p") && args[1] != null){
 				int portnum = Integer.parseInt(args[1]);
 				this.socket = new Socket(InetAddress.getLocalHost().getHostName(), portnum);
-			    this.out = new PrintWriter(socket.getOutputStream(), true);
-			    this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));    		
+				this.out = new ObjectOutputStream(this.socket.getOutputStream());
+				this.out.flush();
+				this.in = new ObjectInputStream(this.socket.getInputStream());
+				
 			}else{
 				System.out.println("ERROR: Enter -p <port number>");
 			}
+		}catch(ConnectException e){
+			System.out.println("\nWARNING: Connection not established, "
+					+ "Run Server with same port.\n");
+			e.printStackTrace();
 		}catch(IOException e){
 			e.printStackTrace();
+		
+		}finally{
+		
+			try{
+				this.in.close();
+				this.out.close();
+				this.socket.close();
+			}
+			catch(IOException ioException){
+				ioException.printStackTrace();
+			}
 		}
 		
 	}
 	
-	public void io_run() throws IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException{
+	public void io_run() throws IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, ClassNotFoundException{
 		while(!g.isFinished){
-			String readIn = in.readLine();
+			String readIn = (String) in.readObject();
 			String call = readIn.substring(0, readIn.indexOf('('));
 			String servArgs[] = readIn.substring(readIn.indexOf('('),readIn.indexOf(')')).split(",");
 			
@@ -71,16 +87,15 @@ public class GameIO {
 			}else{
 				methodMap.get(call).invoke(this);
 			}
-			
 		}
 	}
 	
 	
 	public void game_init(){
-
+		g.init();
 	}
 	
-	public void game_start(){
+	public void game_start(Character representation){
 		
 	}
 	
@@ -113,6 +128,10 @@ public class GameIO {
 	}
 	
 	public void makeMove(int move) {
-		this.out.write(move);
+		try {
+			this.out.writeObject(move);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
