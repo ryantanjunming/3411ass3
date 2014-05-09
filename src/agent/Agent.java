@@ -3,6 +3,7 @@ package agent;
 import java.util.Random;
 
 import game.Game;
+import game.Game.Board;
 import game.GameIO;
 
 public class Agent {
@@ -17,13 +18,18 @@ public class Agent {
 	
 	public void run() {
 		while (!g.isFinished()) {
-			int move = getMove();
+			while (g.curPiece != Game.X_PIECE);
+			int move = getRandomMove();
 			io.makeMove(move);
 		}
 	}
 	
-	public int getMove() {
-		return (new Random()).nextInt() % 10 + 1;
+	public int getRandomMove() {
+		int move = (new Random()).nextInt() % 10 + 1;
+		while (g.board[g.curBoard][move] != Game.EMPTY) {
+			move = (new Random()).nextInt() % 10 + 1;
+		}
+		return move;
 	}
 	
 	public static void main(String[] args) {
