@@ -36,9 +36,9 @@ public class Agent implements Runnable {
 	}
 	
 	public int getRandomMove() {
-		int move = (new Random()).nextInt() % 9;
+		int move = (new Random()).nextInt(9);
 		while (g.board[g.curBoard][move] != Game.EMPTY) {
-			move = (new Random()).nextInt() % 9;
+			move = (new Random()).nextInt(9);
 		}
 		return move;
 	}
