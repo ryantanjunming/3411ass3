@@ -26,10 +26,11 @@ public class GameIO {
 		this.g = g;
 		
 		try{
+			
 			methodMap =  new HashMap<String, Method>();
 			methodMap.put("init", this.getClass().getMethod("game_init"));
 			methodMap.put("start", this.getClass().getMethod("game_start"));
-			methodMap.put("second_move", this.getClass().getMethod("game_second_move"));
+			methodMap.put("second_move", this.getClass().getMethod("game_second_move"));			
 			methodMap.put("third_move", this.getClass().getMethod("game_third_move"));
 			methodMap.put("last_move", this.getClass().getMethod("game_last_move"));
 			methodMap.put("win", this.getClass().getMethod("game_win"));
@@ -95,7 +96,7 @@ public class GameIO {
 		g.init();
 	}
 	
-	public void game_start(Character representation){
+	public void game_start(){
 		
 	}
 	
