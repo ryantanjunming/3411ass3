@@ -27,6 +27,7 @@ public class Agent implements Runnable {
 	}
 	
 	public void run() {
+		io.run();
 		while (!g.isFinished()) {
 			while (g.curPiece != Game.X_PIECE);
 			int move = getRandomMove();

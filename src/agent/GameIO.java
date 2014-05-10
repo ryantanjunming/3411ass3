@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class GameIO {
+public class GameIO extends Thread {
 	
 	public Game g;
 	public Socket socket;
@@ -22,7 +22,6 @@ public class GameIO {
 	public Map<String, Method> methodMap;
 	
 	public GameIO(Game g, String[] args){
-		
 		this.g = g;
 		
 		try{
@@ -77,6 +76,7 @@ public class GameIO {
 	public void io_run() throws IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, ClassNotFoundException{
 		while(!g.isFinished){
 			String readIn = (String) in.readObject();
+			if (readIn == null) continue;
 			String call = readIn.substring(0, readIn.indexOf('('));
 			String servArgs[] = readIn.substring(readIn.indexOf('('),readIn.indexOf(')')).split(",");
 			
