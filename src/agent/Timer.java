@@ -1,4 +1,4 @@
-package utilities;
+package agent;
 
 public class Timer {
 	double startTime;

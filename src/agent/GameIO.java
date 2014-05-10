@@ -1,4 +1,4 @@
-package game;
+package agent;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

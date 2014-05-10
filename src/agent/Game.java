@@ -1,4 +1,4 @@
-package game;
+package agent;
 
 public class Game {
 	

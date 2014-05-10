@@ -2,10 +2,6 @@ package agent;
 
 import java.util.Random;
 
-import utilities.Timer;
-import game.Game;
-import game.GameIO;
-
 public class Agent implements Runnable {
 	
 	public static final double INITIAL_TIME = 30.0;
