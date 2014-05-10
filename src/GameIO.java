@@ -62,16 +62,6 @@ public class GameIO{
 		}catch(Exception e){
 			e.printStackTrace();
 		
-		}finally{
-			try{
-				
-				this.in.close();
-				this.out.close();
-				this.socket.close();
-			}
-			catch(IOException ioException){
-				ioException.printStackTrace();
-			}
 		}
 		
 	}
