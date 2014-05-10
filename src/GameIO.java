@@ -93,32 +93,52 @@ public class GameIO implements Runnable {
 			if(servArgs.length==1){
 				try {
 					methodMap.get(call).invoke(this, servArgs[0]);
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException e) {
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}else if(servArgs.length==2){
 				try {
 					methodMap.get(call).invoke(this, servArgs[0], servArgs[1]);
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException e) {
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else if (servArgs.length == 3) {
 				try {
 					methodMap.get(call).invoke(this, servArgs[0], servArgs[1], servArgs[2]);
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException e) {
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else{
 				try {
 					methodMap.get(call).invoke(this);
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException e) {
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
