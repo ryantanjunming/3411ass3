@@ -28,7 +28,7 @@ public class Agent implements Runnable {
 	
 	public void run() {
 		while (!g.isFinished()) {
-			while (g.curPiece != Game.X_PIECE);
+			while (g.curPiece != Game.X_PIECE || g.curBoard == -1);
 			int move = getRandomMove();
 			g.addPiece(move+1);
 			io.makeMove(move+1);
@@ -39,7 +39,11 @@ public class Agent implements Runnable {
 		int move = (new Random()).nextInt(9);
 		while (g.board[g.curBoard][move] != Game.EMPTY) {
 			move = (new Random()).nextInt(9);
+<<<<<<< HEAD
 		}
+=======
+		} 
+>>>>>>> 5c85a67713de5990c6f7cbe45d7fa2ab6a1842a8
 		return move;
 	}
 	
