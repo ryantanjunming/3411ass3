@@ -1,9 +1,12 @@
 
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.ConnectException;
@@ -19,8 +22,8 @@ public class GameIO implements Runnable {
 	
 	public Game g;
 	public Socket socket;
-	public ObjectOutput out;
- 	public ObjectInputStream in;
+	public PrintWriter out;
+ 	public BufferedReader in;
 	public Map<String, Method> methodMap;
 	
 	public GameIO(Game g, String[] args){
@@ -46,9 +49,10 @@ public class GameIO implements Runnable {
 			
 			if(args[0].equals("-p") && args[1] != null){
 				int portnum = Integer.parseInt(args[1]);
-				this.socket = new Socket(InetAddress.getLocalHost().getHostName(), portnum);
-				this.out = new ObjectOutputStream(this.socket.getOutputStream());
-				this.in = new ObjectInputStream(this.socket.getInputStream());
+				
+				 socket = new Socket(InetAddress.getLocalHost().getHostName(), portnum);
+				 out = new PrintWriter(socket.getOutputStream(), true);
+				 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				
 			}else{
 				System.out.println("ERROR: Enter -p <port number>");
@@ -81,13 +85,11 @@ public class GameIO implements Runnable {
 		while(!g.isFinished){
 			String readIn = null;
 			try {
-				readIn = (String) in.readObject();
-			} catch (ClassNotFoundException e){
-				e.printStackTrace();
-			}catch(IOException e) {
-				e.printStackTrace();
+				readIn = in.readLine();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-			
 			if (readIn == null) continue;
 			String call = readIn.substring(0, readIn.indexOf('('));
 			String servArgs[] = readIn.substring(readIn.indexOf('('),readIn.indexOf(')')).split(",");
@@ -196,10 +198,6 @@ public class GameIO implements Runnable {
 	}
 	
 	public void makeMove(int move) {
-		try {
-			this.out.writeObject(move);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		out.println(move);
 	}
 }
