@@ -93,8 +93,8 @@ public class GameIO implements Runnable {
 			if(servArgs.length==1){
 				try {
 					methodMap.get(call).invoke(this, servArgs[0]);
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException e) {
+				} catch (IllegalAccessException e || IllegalArgumentException e || InvocationTargetException e) {
+						
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
