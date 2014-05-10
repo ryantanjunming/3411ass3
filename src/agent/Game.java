@@ -32,8 +32,13 @@ public class Game {
 		this.curPiece = piece;
 	}
 	
+	public void changeCurPiece() {
+		curPiece ^= 1;
+	}
+	
 	public void addPiece(int pos) {
 		board[curBoard][pos-1] = this.curPiece;
+		curBoard = pos-1;
 		curPiece ^= 1;
 	}
 	
