@@ -22,7 +22,7 @@ public class Agent implements Runnable {
 		this.g = g;
 		this.io = io;
 		t.start();
-		thread = new Thread(this, "Game");
+		thread = new Thread(this, "Agent");
 		thread.start();
 	}
 	

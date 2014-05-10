@@ -13,7 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class GameIO extends Thread {
+public class GameIO implements Runnable {
+	
+	Thread thread;
 	
 	public Game g;
 	public Socket socket;
@@ -69,6 +71,9 @@ public class GameIO extends Thread {
 				ioException.printStackTrace();
 			}
 		}
+		
+		thread = new Thread(this, "GameIO");
+		thread.start();
 		
 	}
 	
