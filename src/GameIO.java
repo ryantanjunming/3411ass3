@@ -3,9 +3,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -62,18 +59,7 @@ public class GameIO{
 		}catch(Exception e){
 			e.printStackTrace();
 		
-		}finally{
-			try{
-				
-				this.in.close();
-				this.out.close();
-				this.socket.close();
-			}
-			catch(IOException ioException){
-				ioException.printStackTrace();
-			}
 		}
-		
 	}
 	
 	public void run(){
