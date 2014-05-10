@@ -57,7 +57,7 @@ public class GameIO implements Runnable {
 			System.out.println("\nWARNING: Connection not established, "
 					+ "Run Server with same port.\n");
 			e.printStackTrace();
-		}catch(IOException e){
+		}catch(Exception e){
 			e.printStackTrace();
 		
 		}finally{
@@ -82,10 +82,12 @@ public class GameIO implements Runnable {
 			String readIn = null;
 			try {
 				readIn = (String) in.readObject();
-			} catch (ClassNotFoundException | IOException e) {
-				// TODO Auto-generated catch block
+			} catch (ClassNotFoundException e){
+				e.printStackTrace();
+			}catch(IOException e) {
 				e.printStackTrace();
 			}
+			
 			if (readIn == null) continue;
 			String call = readIn.substring(0, readIn.indexOf('('));
 			String servArgs[] = readIn.substring(readIn.indexOf('('),readIn.indexOf(')')).split(",");
@@ -93,32 +95,52 @@ public class GameIO implements Runnable {
 			if(servArgs.length==1){
 				try {
 					methodMap.get(call).invoke(this, servArgs[0]);
-				} catch (IllegalAccessException e || IllegalArgumentException e || InvocationTargetException e) {
-						
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}else if(servArgs.length==2){
 				try {
 					methodMap.get(call).invoke(this, servArgs[0], servArgs[1]);
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException e) {
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else if (servArgs.length == 3) {
 				try {
 					methodMap.get(call).invoke(this, servArgs[0], servArgs[1], servArgs[2]);
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException e) {
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else{
 				try {
 					methodMap.get(call).invoke(this);
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException e) {
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
