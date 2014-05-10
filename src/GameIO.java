@@ -16,9 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class GameIO implements Runnable {
-	
-	Thread thread;
+public class GameIO{
 	
 	public Game g;
 	public Socket socket;
@@ -75,9 +73,6 @@ public class GameIO implements Runnable {
 				ioException.printStackTrace();
 			}
 		}
-		
-		thread = new Thread(this, "GameIO");
-		thread.start();
 		
 	}
 	

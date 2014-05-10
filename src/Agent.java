@@ -27,7 +27,6 @@ public class Agent implements Runnable {
 	}
 	
 	public void run() {
-		io.run();
 		while (!g.isFinished()) {
 			while (g.curPiece != Game.X_PIECE);
 			int move = getRandomMove();
@@ -71,5 +70,6 @@ public class Agent implements Runnable {
 		Game g = new Game();
 		GameIO io = new GameIO(g, args);
 		new Agent(g, io);
+		io.run();
 	}
 }
