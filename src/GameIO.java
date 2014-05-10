@@ -24,22 +24,22 @@ public class GameIO{
 	public GameIO(Game g, String[] args){
 		this.g = g;
 		
-		try{
-			methodMap =  new HashMap<String, Method>();
-			methodMap.put("init", this.getClass().getMethod("game_init"));
-			methodMap.put("start", this.getClass().getMethod("game_start", String.class));
-			methodMap.put("second_move", this.getClass().getMethod("game_second_move", String.class,String.class));			
-			methodMap.put("third_move", this.getClass().getMethod("game_third_move",String.class,String.class,String.class));
-			methodMap.put("last_move", this.getClass().getMethod("game_last_move", String.class));
-			methodMap.put("win", this.getClass().getMethod("game_win"));
-			methodMap.put("loss", this.getClass().getMethod("game_loss"));
-			methodMap.put("draw", this.getClass().getMethod("game_draw"));
-			methodMap.put("end", this.getClass().getMethod("game_end"));
-			
-		}catch(NoSuchMethodException e){
-			e.printStackTrace();
-		}
-		
+//		try{
+//			methodMap =  new HashMap<String, Method>();
+//			methodMap.put("init", this.getClass().getMethod("game_init"));
+//			methodMap.put("start", this.getClass().getMethod("game_start", String.class));
+//			methodMap.put("second_move", this.getClass().getMethod("game_second_move", String.class,String.class));			
+//			methodMap.put("third_move", this.getClass().getMethod("game_third_move",String.class,String.class,String.class));
+//			methodMap.put("last_move", this.getClass().getMethod("game_last_move", String.class));
+//			methodMap.put("win", this.getClass().getMethod("game_win"));
+//			methodMap.put("loss", this.getClass().getMethod("game_loss"));
+//			methodMap.put("draw", this.getClass().getMethod("game_draw"));
+//			methodMap.put("end", this.getClass().getMethod("game_end"));
+//			
+//		}catch(NoSuchMethodException e){
+//			e.printStackTrace();
+//		}
+//		
 		try{
 			
 			if(args[0].equals("-p") && args[1] != null){
@@ -72,61 +72,48 @@ public class GameIO{
 				e1.printStackTrace();
 			}
 			if (readIn == null) continue;
-			String call = readIn.substring(0, readIn.indexOf('('));
-			String servArgs[] = readIn.substring(readIn.indexOf('('),readIn.indexOf(')')).split(",");
+			String call = null;
+			String servArgs[] = null;
+			if (readIn.contains("(")) {
+				call = readIn.substring(0, readIn.indexOf('('));
+				servArgs = readIn.substring(readIn.indexOf('(')+1,readIn.indexOf(')')).split(",");
+			} else {
+				call = readIn.substring(0, readIn.indexOf('.'));
+			}
+			if (call != null) {
+				System.out.print(call);
+				if (servArgs != null) {
+					for (String s : servArgs) {
+						System.out.print(" " + s);
+					}
+				}
+				System.out.println();
+			}
 			
-			if(servArgs.length==1){
-				try {
-					methodMap.get(call).invoke(this, servArgs[0]);
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else if(servArgs.length==2){
-				try {
-					methodMap.get(call).invoke(this, servArgs[0], servArgs[1]);
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} else if (servArgs.length == 3) {
-				try {
-					methodMap.get(call).invoke(this, servArgs[0], servArgs[1], servArgs[2]);
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} else{
-				try {
-					methodMap.get(call).invoke(this);
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			if (call.equalsIgnoreCase("init")) {
+				game_init();
+			} else if (call.equalsIgnoreCase("start")) {
+				game_start();
+			} else if (call.equalsIgnoreCase("second_move")) {
+				assert(servArgs.length == 2);
+				game_second_move(servArgs[0], servArgs[1]);
+			} else if (call.equalsIgnoreCase("third_move")) {
+				assert(servArgs.length == 3);
+				game_third_move(servArgs[0], servArgs[1], servArgs[2]);
+			} else if (call.equalsIgnoreCase("next_move")) {
+				assert(servArgs.length == 1);
+				game_next_move(servArgs[0]);
+			} else if (call.equalsIgnoreCase("last_move")) {
+				assert(servArgs.length == 1);
+				game_last_move(servArgs[0]);
+			} else if (call.equalsIgnoreCase("win")) {
+				game_win();
+			} else if (call.equalsIgnoreCase("loss")) {
+				game_loss();
+			} else if (call.equalsIgnoreCase("draw")) {
+				game_draw();
+			} else if (call.equalsIgnoreCase("end")) {
+				game_end();
 			}
 		}
 	}
@@ -137,7 +124,7 @@ public class GameIO{
 	}
 	
 
-	public void game_start(String s) {
+	public void game_start() {
 		// do nothing
 	}
 	
