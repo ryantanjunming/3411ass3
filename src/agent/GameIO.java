@@ -72,21 +72,51 @@ public class GameIO extends Thread {
 		
 	}
 	
-	public void io_run() throws IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, ClassNotFoundException{
+	public void run(){
 		while(!g.isFinished){
-			String readIn = (String) in.readObject();
+			String readIn = null;
+			try {
+				readIn = (String) in.readObject();
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if (readIn == null) continue;
 			String call = readIn.substring(0, readIn.indexOf('('));
 			String servArgs[] = readIn.substring(readIn.indexOf('('),readIn.indexOf(')')).split(",");
 			
 			if(servArgs.length==1){
-				methodMap.get(call).invoke(this, servArgs[0]);
+				try {
+					methodMap.get(call).invoke(this, servArgs[0]);
+				} catch (IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}else if(servArgs.length==2){
-				methodMap.get(call).invoke(this, servArgs[0], servArgs[1]);
+				try {
+					methodMap.get(call).invoke(this, servArgs[0], servArgs[1]);
+				} catch (IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else if (servArgs.length == 3) {
-				methodMap.get(call).invoke(this, servArgs[0], servArgs[1], servArgs[2]);
+				try {
+					methodMap.get(call).invoke(this, servArgs[0], servArgs[1], servArgs[2]);
+				} catch (IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else{
-				methodMap.get(call).invoke(this);
+				try {
+					methodMap.get(call).invoke(this);
+				} catch (IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
