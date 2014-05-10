@@ -82,10 +82,12 @@ public class GameIO {
 			String servArgs[] = readIn.substring(readIn.indexOf('('),readIn.indexOf(')')).split(",");
 			
 			if(servArgs.length==1){
-				methodMap.get(call).invoke(this, servArgs[1]);
+				methodMap.get(call).invoke(this, servArgs[0]);
 			}else if(servArgs.length==2){
-				methodMap.get(call).invoke(this, servArgs[1], servArgs[2]);
-			}else{
+				methodMap.get(call).invoke(this, servArgs[0], servArgs[1]);
+			} else if (servArgs.length == 3) {
+				methodMap.get(call).invoke(this, servArgs[0], servArgs[1], servArgs[2]);
+			} else{
 				methodMap.get(call).invoke(this);
 			}
 		}
@@ -96,32 +98,42 @@ public class GameIO {
 		g.init();
 	}
 	
-	public void game_start(){
-		
+
+	public void game_start(String s) {
+		// do nothing
 	}
 	
-	public void game_second_move(){
-		
+	public void game_second_move(String a, String b){
+		this.g.changeCurPiece();
+		this.g.setCurBoard(Integer.parseInt(a)-1);
+		this.g.addPiece(Integer.parseInt(b));
 	}
 	
-	public void game_third_move(){
-		
+	public void game_third_move(String a, String b, String c){
+		this.g.setCurBoard(Integer.parseInt(a)-1);
+		this.g.addPiece(Integer.parseInt(b));
+		this.g.addPiece(Integer.parseInt(c));
 	}
 	
-	public void game_last_move(){
-		
+	public void game_next_move(String move) {
+		this.g.addPiece(Integer.parseInt(move));
+	}
+	
+	public void game_last_move(String move){
+		this.g.addPiece(Integer.parseInt(move));
+		this.g.setToFinished();
 	}
 	
 	public void game_win(){
-		
+		this.g.setToFinished();
 	}
 	
 	public void game_loss(){
-		
+		this.g.setToFinished();
 	}
 	
 	public void game_draw(){
-		
+		this.g.setToFinished();
 	}
 	
 	public void game_end(){
