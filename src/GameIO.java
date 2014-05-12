@@ -4,12 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -24,22 +22,6 @@ public class GameIO{
 	public GameIO(Game g, String[] args){
 		this.g = g;
 		
-//		try{
-//			methodMap =  new HashMap<String, Method>();
-//			methodMap.put("init", this.getClass().getMethod("game_init"));
-//			methodMap.put("start", this.getClass().getMethod("game_start", String.class));
-//			methodMap.put("second_move", this.getClass().getMethod("game_second_move", String.class,String.class));			
-//			methodMap.put("third_move", this.getClass().getMethod("game_third_move",String.class,String.class,String.class));
-//			methodMap.put("last_move", this.getClass().getMethod("game_last_move", String.class));
-//			methodMap.put("win", this.getClass().getMethod("game_win"));
-//			methodMap.put("loss", this.getClass().getMethod("game_loss"));
-//			methodMap.put("draw", this.getClass().getMethod("game_draw"));
-//			methodMap.put("end", this.getClass().getMethod("game_end"));
-//			
-//		}catch(NoSuchMethodException e){
-//			e.printStackTrace();
-//		}
-//		
 		try{
 			
 			if(args[0].equals("-p") && args[1] != null){
@@ -89,15 +71,7 @@ public class GameIO{
 				}
 				System.out.println();
 			}
-//			methodMap.put("init", this.getClass().getMethod("game_init"));
-//			methodMap.put("start", this.getClass().getMethod("game_start", String.class));
-//			methodMap.put("second_move", this.getClass().getMethod("game_second_move", String.class,String.class));			
-//			methodMap.put("third_move", this.getClass().getMethod("game_third_move",String.class,String.class,String.class));
-//			methodMap.put("last_move", this.getClass().getMethod("game_last_move", String.class));
-//			methodMap.put("win", this.getClass().getMethod("game_win"));
-//			methodMap.put("loss", this.getClass().getMethod("game_loss"));
-//			methodMap.put("draw", this.getClass().getMethod("game_draw"));
-//			methodMap.put("end", this.getClass().getMethod("game_end"));
+			
 			if (call.equalsIgnoreCase("init")) {
 				game_init();
 			} else if (call.equalsIgnoreCase("start")) {

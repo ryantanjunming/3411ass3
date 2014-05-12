@@ -45,8 +45,13 @@ public class Agent implements Runnable {
 	}
 	
 	public double moveScore(int move) {
+		
+		int moveBoard[] = g.board[move];
+		
+		
 		return 0;
 	}
+	
 	
 	public double alphaBetaSearch(double alpha, double beta, int prevMove, double score, boolean x_move) {
 		
@@ -57,6 +62,7 @@ public class Agent implements Runnable {
 			g.board[prevMove][move] = (x_move) ? Game.X_PIECE : Game.Y_PIECE;
 			double moveScore = moveScore(move);
 			double newScore = alphaBetaSearch(alpha, beta, move, move+moveScore, (x_move) ? false : true);
+			
 			g.board[prevMove][move] = Game.EMPTY;
 			if (x_move) alpha = Math.max(alpha, newScore);
 			else beta = Math.min(beta, newScore);
@@ -89,6 +95,7 @@ public class Agent implements Runnable {
 		timeLeft -= t.getTimeS();
 		return bestMove;
 	}
+	
 	
 	public static void main(String[] args) {
 		Game g = new Game();
