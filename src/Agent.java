@@ -15,7 +15,7 @@ public class Agent implements Runnable {
 	//time in seconds
 	double timeLeft = INITIAL_TIME;
 	
-	double BAD_MOVE_VALUE = -1000000;
+	double BAD_MOVE_VALUE = -100000000;
 	double bestMoveValue;
 	
 	public Agent(Game g, GameIO io) {
@@ -36,6 +36,7 @@ public class Agent implements Runnable {
 	}
 	
 	public int getRandomMove() {
+		t.update();
 		int move = (new Random()).nextInt(9);
 		while (g.board[g.curBoard][move] != Game.EMPTY) {
 			move = (new Random()).nextInt(9);
@@ -43,27 +44,50 @@ public class Agent implements Runnable {
 		return move;
 	}
 	
-	public double alphaBetaSearch(double alpha, double beta, int moveNumber, double score) {
+	public double moveScore(int move) {
 		return 0;
+	}
+	
+	public double alphaBetaSearch(double alpha, double beta, int prevMove, double score, boolean x_move) {
+		
+		if (score <= BAD_MOVE_VALUE || score >= -BAD_MOVE_VALUE) return score;
+		
+		for (int move = 0; move < 9; move++) {
+			if (g.board[prevMove][move] != Game.EMPTY) continue;
+			g.board[prevMove][move] = (x_move) ? Game.X_PIECE : Game.Y_PIECE;
+			double moveScore = moveScore(move);
+			double newScore = alphaBetaSearch(alpha, beta, move, move+moveScore, (x_move) ? false : true);
+			g.board[prevMove][move] = Game.EMPTY;
+			if (x_move) alpha = Math.max(alpha, newScore);
+			else beta = Math.min(beta, newScore);
+			if (alpha >= beta) break;
+		}
+		
+		return (x_move) ? alpha : beta;
 	}
 	
 	public int getMove() {
 		timeLeft += TIME_PER_TURN;
 		t.update();
 		bestMoveValue = BAD_MOVE_VALUE;
+		int bestMove = -1;
 		
 		for (int move = 0; move < 9; move++) {
-			if (g.board[g.curBoard][move] == Game.EMPTY) {
-				g.board[g.curBoard][move] = Game.X_PIECE;
-				
-				
-				//double value = alphaBetaSearch(BAD_MOVE_VALUE, -BAD_MOVE_VALUE, move, )
-				g.board[g.curBoard][move] = Game.EMPTY;
+			if (g.board[g.curBoard][move] != Game.EMPTY) continue;
+			if (bestMove == -1) bestMove = move;
+			g.board[g.curBoard][move] = Game.X_PIECE;
+			double score = moveScore(move);
+			if (score == BAD_MOVE_VALUE) continue;
+			double value = alphaBetaSearch(BAD_MOVE_VALUE, -BAD_MOVE_VALUE, move, score, false);
+			g.board[g.curBoard][move] = Game.EMPTY;
+			if (value > bestMoveValue) {
+				bestMoveValue = value;
+				bestMove = move;
 			}
 		}
 		
 		timeLeft -= t.getTimeS();
-		return 0;
+		return bestMove;
 	}
 	
 	public static void main(String[] args) {

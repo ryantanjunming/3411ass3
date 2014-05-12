@@ -7,7 +7,7 @@ public class Game {
 	public static final int EMPTY = 2;
 	
 	public int[][] board = new int[9][9];
-	public int curBoard;
+	public int curBoard = -1;
 	public int curPiece;
 	public boolean isFinished;
 	

@@ -89,7 +89,15 @@ public class GameIO{
 				}
 				System.out.println();
 			}
-			
+//			methodMap.put("init", this.getClass().getMethod("game_init"));
+//			methodMap.put("start", this.getClass().getMethod("game_start", String.class));
+//			methodMap.put("second_move", this.getClass().getMethod("game_second_move", String.class,String.class));			
+//			methodMap.put("third_move", this.getClass().getMethod("game_third_move",String.class,String.class,String.class));
+//			methodMap.put("last_move", this.getClass().getMethod("game_last_move", String.class));
+//			methodMap.put("win", this.getClass().getMethod("game_win"));
+//			methodMap.put("loss", this.getClass().getMethod("game_loss"));
+//			methodMap.put("draw", this.getClass().getMethod("game_draw"));
+//			methodMap.put("end", this.getClass().getMethod("game_end"));
 			if (call.equalsIgnoreCase("init")) {
 				game_init();
 			} else if (call.equalsIgnoreCase("start")) {
@@ -104,7 +112,7 @@ public class GameIO{
 				assert(servArgs.length == 1);
 				game_next_move(servArgs[0]);
 			} else if (call.equalsIgnoreCase("last_move")) {
-				assert(servArgs.length == 1);
+				assert(servArgs.length >= 1);
 				game_last_move(servArgs[0]);
 			} else if (call.equalsIgnoreCase("win")) {
 				game_win();
