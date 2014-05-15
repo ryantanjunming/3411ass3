@@ -1,5 +1,4 @@
 
-
 import java.util.Random;
 
 public class Agent implements Runnable {
@@ -28,9 +27,14 @@ public class Agent implements Runnable {
 	}
 	
 	public void run() {
+		int randMoveCount = 1;
 		while (!g.isFinished()) {
 			while (g.curPiece != Game.X_PIECE || g.curBoard == -1);
-			int move = getRandomMove();
+			int move = getMove();
+			if(randMoveCount > 0){
+				randMoveCount--;
+				move = getRandomMove();
+			}
 			g.addPiece(move+1);
 			io.makeMove(move+1);
 		}
@@ -59,7 +63,7 @@ public class Agent implements Runnable {
 	}
 	
 	public int getDepthLimit(double timeLimit) {
-		return 5;
+		return 9;
 	}
 	
 	public double alphaBetaSearch(double alpha, double beta, int prevMove, int depth, int depth_limit, double score, boolean x_move, double timeLimit) {
