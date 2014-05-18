@@ -14,7 +14,7 @@ public class Agent implements Runnable {
 	//time in seconds
 	double timeLeft = INITIAL_TIME;
 	double BAD_MOVE_VALUE = -10000;
-	double WIN_VALUE = 1000000;
+	double WIN_VALUE = 10000000;
 	double bestMoveValue;
 	int[] retval = new int[2];
 
@@ -27,14 +27,9 @@ public class Agent implements Runnable {
 	}
 	
 	public void run() {
-		int randMoveCount = 1;
 		while (!g.isFinished()) {
 			while (g.curPiece != Game.X_PIECE || g.curBoard == -1);
 			int move = getMove();
-			if(randMoveCount > 0){
-				randMoveCount--;
-				move = getRandomMove();
-			}
 			g.addPiece(move+1);
 			io.makeMove(move+1);
 		}
@@ -49,14 +44,14 @@ public class Agent implements Runnable {
 		return move;
 	}
 	
-	public double moveScore(int move, boolean x_move) {
+	public double moveScore(int prevMove, int move, boolean x_move) {
 		int player = (x_move) ? 1 : -1;
 		double score = 0.0;
-		if(ScoreChecker.gonnaWin(g.board[move], (x_move) ? Game.X_PIECE : Game.Y_PIECE)){
+		if(ScoreChecker.gonnaWin(g.board[prevMove], (x_move) ? Game.X_PIECE : Game.Y_PIECE)){
 			return player * WIN_VALUE; //win move
-		}else{
+		} else{
 			score = player * ScoreChecker.preferenceScore(move) * 
-					ScoreChecker.leadsToBetterPositionScore(g.board[move], move, (x_move) ? Game.X_PIECE : Game.Y_PIECE);
+					ScoreChecker.leadsToBetterPositionScore(g.board[prevMove], (x_move) ? Game.X_PIECE : Game.Y_PIECE);
 		}
 		
 		return score;
@@ -66,8 +61,7 @@ public class Agent implements Runnable {
 		return 9;
 	}
 	
-	public double alphaBetaSearch(double alpha, double beta, int prevMove, int depth, int depth_limit, double score, boolean x_move, double timeLimit) {
-		
+	public double alphaBetaSearch(double alpha, double beta, int prevMove, int depth, int depth_limit, double score, boolean x_move) {
 		
 		if (score <= BAD_MOVE_VALUE || score >= -BAD_MOVE_VALUE
 				|| depth == depth_limit) return score;
@@ -76,15 +70,20 @@ public class Agent implements Runnable {
 			if (g.board[prevMove][move] != Game.EMPTY) continue;
 			
 			g.board[prevMove][move] = (x_move) ? Game.X_PIECE : Game.Y_PIECE;
-			double moveScore = moveScore(move, x_move);
+			double moveScore = moveScore(prevMove, move, x_move);
 			
 			double newScore = alphaBetaSearch(alpha, beta, move, depth+1, 
-					depth_limit, move+moveScore, (x_move) ? false : true, timeLimit);
+					depth_limit, move+moveScore, (x_move) ? false : true);
 			
 			g.board[prevMove][move] = Game.EMPTY;
-			if (x_move) alpha = Math.max(alpha, newScore);
-			else beta = Math.min(beta, newScore);
-			if (alpha >= beta) break;
+			if (x_move) {
+				alpha = Math.max(alpha, newScore);
+				if (alpha >= beta) break;
+			}
+			else {
+				beta = Math.min(beta, newScore);
+				if (beta <= alpha) break;
+			}
 		}
 		
 		return (x_move) ? alpha : beta;
@@ -102,18 +101,17 @@ public class Agent implements Runnable {
 			if (g.board[g.curBoard][move] != Game.EMPTY) continue;
 			if (bestMove == -1) bestMove = move;
 			g.board[g.curBoard][move] = Game.X_PIECE;
-			double score = moveScore(move, true); //check pls, X goes first
+			double score = moveScore(g.curBoard, move, true); //check pls, X goes first
 			
 			if (score == BAD_MOVE_VALUE) continue;
 			double value = alphaBetaSearch(BAD_MOVE_VALUE, -BAD_MOVE_VALUE, 
-					move, 1, depth_limit, score, false, timeLimit);
+					move, 1, depth_limit, score, false);
 			g.board[g.curBoard][move] = Game.EMPTY;
 			if (value > bestMoveValue) {
 				bestMoveValue = value;
 				bestMove = move;
 			}
 		}
-		
 		timeLeft -= t.getTimeS();
 		return bestMove;
 	}

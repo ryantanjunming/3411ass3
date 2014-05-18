@@ -21,12 +21,10 @@ public class GameIO{
 	
 	public GameIO(Game g, String[] args){
 		this.g = g;
-		
 		try{
 			
 			if(args[0].equals("-p") && args[1] != null){
 				int portnum = Integer.parseInt(args[1]);
-				
 				 socket = new Socket(InetAddress.getLocalHost().getHostName(), portnum);
 				 out = new PrintWriter(socket.getOutputStream(), true);
 				 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
