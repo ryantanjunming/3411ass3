@@ -39,14 +39,30 @@ public class ScoreChecker {
 	public static int leadsToBetterPositionScore(int[] moveBoard, int piece){
 		int bonus = 1;
 		for(int i=0;i<WIN_POSITIONS.length;i++){
-			//check that there are two of the same pieces in a row
-			if((WIN_POSITIONS[i][0]==piece && moveBoard[WIN_POSITIONS[i][1]]==piece && moveBoard[WIN_POSITIONS[i][2]]==Game.EMPTY)
-			|| (moveBoard[WIN_POSITIONS[i][0]]==Game.EMPTY && WIN_POSITIONS[i][1]==piece && moveBoard[WIN_POSITIONS[i][2]]==piece)
-			|| (moveBoard[WIN_POSITIONS[i][0]]==piece && moveBoard[WIN_POSITIONS[i][1]]==Game.EMPTY && WIN_POSITIONS[i][2]==piece)){
-				bonus = 3;
+			//check if there are two of the same pieces in a row already on the board
+			if((moveBoard[WIN_POSITIONS[i][0]]==piece && moveBoard[WIN_POSITIONS[i][1]]==piece && moveBoard[WIN_POSITIONS[i][2]]==Game.EMPTY)
+			|| (moveBoard[WIN_POSITIONS[i][0]]==Game.EMPTY && moveBoard[WIN_POSITIONS[i][1]]==piece && moveBoard[WIN_POSITIONS[i][2]]==piece)
+			|| (moveBoard[WIN_POSITIONS[i][0]]==piece && moveBoard[WIN_POSITIONS[i][1]]==Game.EMPTY && moveBoard[WIN_POSITIONS[i][2]]==piece)){
+				bonus += 10;
 			}
 		}
-		
 		return bonus;
 	}
+	
+	public static int leadsToBlockingScore(int[] moveBoard, int piece){
+		int bonus = 1;
+		int opponent = -piece;
+		for(int i=0;i<WIN_POSITIONS.length;i++){
+
+			//check that the move attributes to a successful block
+			if((moveBoard[WIN_POSITIONS[i][0]]==opponent && moveBoard[WIN_POSITIONS[i][1]]==opponent && moveBoard[WIN_POSITIONS[i][2]]==piece)
+			|| (moveBoard[WIN_POSITIONS[i][0]]==piece && moveBoard[WIN_POSITIONS[i][1]]==opponent && moveBoard[WIN_POSITIONS[i][2]]==piece)
+			|| (moveBoard[WIN_POSITIONS[i][0]]==piece && moveBoard[WIN_POSITIONS[i][1]]==piece && moveBoard[WIN_POSITIONS[i][2]]==opponent)){
+				bonus += 20;
+			}
+			
+		}
+		return bonus;
+	}
+	
 }
