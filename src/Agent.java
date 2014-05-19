@@ -51,8 +51,8 @@ public class Agent implements Runnable {
 			return player * WIN_VALUE; //win move
 		} else{
 			score = player * ScoreChecker.preferenceScore(move) * 
-					ScoreChecker.leadsToBetterPositionScore(g.board[prevMove], (x_move) ? Game.X_PIECE : Game.Y_PIECE) *
-					ScoreChecker.leadsToBlockingScore(g.board[prevMove], (x_move) ? Game.X_PIECE : Game.Y_PIECE);
+					ScoreChecker.leadsToBetterPositionScore(g, prevMove, (x_move) ? Game.X_PIECE : Game.Y_PIECE) *
+					ScoreChecker.leadsToBlockingScore(g.board[prevMove], move, (x_move) ? Game.Y_PIECE : Game.X_PIECE);
 		}
 		
 		return score;
@@ -64,6 +64,8 @@ public class Agent implements Runnable {
 	
 	public double alphaBetaSearch(double alpha, double beta, int prevMove, int depth, int depth_limit, double score, boolean x_move) {
 		
+		//if the previous move was a winning move, or the depth limit is
+		//reached, simply return.
 		if (score <= BAD_MOVE_VALUE || score >= -BAD_MOVE_VALUE
 				|| depth == depth_limit) return score;
 		
@@ -114,6 +116,7 @@ public class Agent implements Runnable {
 			}
 		}
 		timeLeft -= t.getTimeS();
+		System.out.println(bestMoveValue);
 		return bestMove;
 	}
 	
