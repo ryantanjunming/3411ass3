@@ -56,11 +56,11 @@ public class ScoreChecker {
 		int bonus = 1;
 		for (int i = 0; i < WIN_POSITIONS.length; i++) {
 			if (g.board[bNum][WIN_POSITIONS[i][0]]==piece && g.board[bNum][WIN_POSITIONS[i][1]]==piece && g.board[bNum][WIN_POSITIONS[i][2]]==Game.EMPTY) {
-				bonus += 100*mul;
+				bonus += 10*mul;
 			} else if (g.board[bNum][WIN_POSITIONS[i][0]]==Game.EMPTY && g.board[bNum][WIN_POSITIONS[i][1]]==piece && g.board[bNum][WIN_POSITIONS[i][2]]==piece) {
-				 bonus += 100*mul;
+				 bonus += 10*mul;
 			} else if (g.board[bNum][WIN_POSITIONS[i][0]]==piece && g.board[bNum][WIN_POSITIONS[i][1]]==piece && g.board[bNum][WIN_POSITIONS[i][2]]==Game.EMPTY) {
-				bonus += 100*mul;
+				bonus += 10*mul;
 			}
 		}
 		return bonus;
@@ -74,7 +74,7 @@ public class ScoreChecker {
 			if((moveBoard[WIN_POSITIONS[i][0]]==opponent && moveBoard[WIN_POSITIONS[i][1]]==opponent && WIN_POSITIONS[i][2]==move)
 			|| (WIN_POSITIONS[i][0] ==move && moveBoard[WIN_POSITIONS[i][1]]==opponent && moveBoard[WIN_POSITIONS[i][2]]==opponent)
 			|| (moveBoard[WIN_POSITIONS[i][0]]==opponent && WIN_POSITIONS[i][1]==move && moveBoard[WIN_POSITIONS[i][2]]==opponent)){
-				bonus += 20;
+				bonus += 10;
 			}
 		
 		}

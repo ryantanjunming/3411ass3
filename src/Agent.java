@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class Agent implements Runnable {
 	
-	public static final double INITIAL_TIME = 30.0;
+	public static final double INITIAL_TIME = 20.0;
 	public static final double TIME_PER_TURN = 2.0;
 	
 	Thread thread;
@@ -13,8 +13,8 @@ public class Agent implements Runnable {
 	Timer t = new Timer();
 	//time in seconds
 	double timeLeft = INITIAL_TIME;
-	double BAD_MOVE_VALUE = -10000;
-	double WIN_VALUE = 10000000;
+	double BAD_MOVE_VALUE = -10000000;
+	double WIN_VALUE = 1000000000;
 	double bestMoveValue;
 	int[] retval = new int[2];
 
@@ -76,7 +76,7 @@ public class Agent implements Runnable {
 			double moveScore = moveScore(prevMove, move, x_move);
 			
 			double newScore = alphaBetaSearch(alpha, beta, move, depth+1, 
-					depth_limit, move+moveScore, (x_move) ? false : true);
+					depth_limit, score+moveScore, (x_move) ? false : true);
 			
 			g.board[prevMove][move] = Game.EMPTY;
 			if (x_move) {
@@ -104,9 +104,8 @@ public class Agent implements Runnable {
 			if (g.board[g.curBoard][move] != Game.EMPTY) continue;
 			if (bestMove == -1) bestMove = move;
 			g.board[g.curBoard][move] = Game.X_PIECE;
-			double score = moveScore(g.curBoard, move, true); //check pls, X goes first
+			double score = moveScore(g.curBoard, move, true);
 			
-			if (score == BAD_MOVE_VALUE) continue;
 			double value = alphaBetaSearch(BAD_MOVE_VALUE, -BAD_MOVE_VALUE, 
 					move, 1, depth_limit, score, false);
 			g.board[g.curBoard][move] = Game.EMPTY;
