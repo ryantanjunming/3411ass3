@@ -1,5 +1,4 @@
 
-
 public class Game {
 	
 	public static final int X_PIECE = 0;
@@ -61,3 +60,4 @@ public class Game {
 	}
 	
 }
+
