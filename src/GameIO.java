@@ -23,7 +23,12 @@ public class GameIO{
 		try{
 			
 			if(args[0].equals("-p") && args[1] != null){
-				 int portnum = Integer.parseInt(args[1]);
+				 int portnum;
+				 if(args[1] == null){
+					 portnum = 12346;
+				 }else{
+					 portnum = Integer.parseInt(args[1]);
+				 }
 				 socket = new Socket(InetAddress.getLocalHost().getHostName(), portnum);
 				 out = new PrintWriter(socket.getOutputStream(), true);
 				 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));

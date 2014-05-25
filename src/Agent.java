@@ -59,7 +59,7 @@ public class Agent implements Runnable {
 	}
 	
 	public int getDepthLimit(double timeLimit) {
-		return 10;
+		return 9;
 	}
 	
 	public double alphaBetaSearch(double alpha, double beta, int prevMove, int depth, int depth_limit, double score, boolean x_move) {
@@ -100,6 +100,7 @@ public class Agent implements Runnable {
 		int bestMove = -1;
 		double timeLimit = timeLeft / 2;
 		int depth_limit = getDepthLimit(timeLimit);
+		
 		for (int move = 0; move < 9; move++) {
 			if (g.board[g.curBoard][move] != Game.EMPTY) continue;
 			if (bestMove == -1) bestMove = move;
@@ -108,12 +109,15 @@ public class Agent implements Runnable {
 			
 			double value = alphaBetaSearch(BAD_MOVE_VALUE, -BAD_MOVE_VALUE, 
 					move, 1, depth_limit, score, false);
+			
 			g.board[g.curBoard][move] = Game.EMPTY;
 			if (value > bestMoveValue) {
 				bestMoveValue = value;
 				bestMove = move;
 			}
 		}
+		
+		System.out.println("Search took: " + t.getTimeS());
 		timeLeft -= t.getTimeS();
 		System.out.println(bestMoveValue);
 		return bestMove;
