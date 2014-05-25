@@ -22,6 +22,7 @@ public class Game {
 	
 	public void setToFinished() {
 		isFinished = true;
+		System.exit(0);
 	}
 	
 	public void setCurBoard(int curBoard) {

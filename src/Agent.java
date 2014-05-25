@@ -59,7 +59,7 @@ public class Agent implements Runnable {
 	}
 	
 	public int getDepthLimit(double timeLimit) {
-		return 9;
+		return 10;
 	}
 	
 	public double alphaBetaSearch(double alpha, double beta, int prevMove, int depth, int depth_limit, double score, boolean x_move) {
