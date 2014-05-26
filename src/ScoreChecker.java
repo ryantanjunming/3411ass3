@@ -33,20 +33,7 @@ public class ScoreChecker {
 		}
 		return 1;
 	}
-	
-	private static boolean twoInWinningPos(Game g, int bNum, int piece) {
-		for (int i = 0; i < WIN_POSITIONS.length; i++) {
-			if (g.board[bNum][WIN_POSITIONS[i][0]]==piece && g.board[bNum][WIN_POSITIONS[i][1]]==piece && g.board[bNum][WIN_POSITIONS[i][2]]==Game.EMPTY) {
-				return true;
-			} else if (g.board[bNum][WIN_POSITIONS[i][0]]==Game.EMPTY && g.board[bNum][WIN_POSITIONS[i][1]]==piece && g.board[bNum][WIN_POSITIONS[i][2]]==piece) {
-				 return true;
-			} else if (g.board[bNum][WIN_POSITIONS[i][0]]==piece && g.board[bNum][WIN_POSITIONS[i][1]]==piece && g.board[bNum][WIN_POSITIONS[i][2]]==Game.EMPTY) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
+
 	public static int leadsToBetterPositionScore(Game g, int bNum, int piece) {
 		int mul = 0;
 		for (int i = 0; i < 9; i++) {
@@ -56,19 +43,10 @@ public class ScoreChecker {
 		int bonus = 1;
 		for (int i = 0; i < WIN_POSITIONS.length; i++) {
 			if (g.board[bNum][WIN_POSITIONS[i][0]]==piece && g.board[bNum][WIN_POSITIONS[i][1]]==piece && g.board[bNum][WIN_POSITIONS[i][2]]==Game.EMPTY) {
-				if (twoInWinningPos(g, WIN_POSITIONS[i][2], piece)) {
-					bonus += 10*mul;
-				}
 				bonus += 10*mul;
 			} else if (g.board[bNum][WIN_POSITIONS[i][0]]==Game.EMPTY && g.board[bNum][WIN_POSITIONS[i][1]]==piece && g.board[bNum][WIN_POSITIONS[i][2]]==piece) {
-				if (twoInWinningPos(g, WIN_POSITIONS[i][0], piece)) {
-					bonus += 10*mul;
-				}
 				bonus += 10*mul;
 			} else if (g.board[bNum][WIN_POSITIONS[i][0]]==piece && g.board[bNum][WIN_POSITIONS[i][1]]==piece && g.board[bNum][WIN_POSITIONS[i][2]]==Game.EMPTY) {
-				if (twoInWinningPos(g, WIN_POSITIONS[i][1], piece)) {
-					bonus += 10*mul;
-				}
 				bonus += 10*mul;
 			}
 		}

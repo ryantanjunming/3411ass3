@@ -58,10 +58,6 @@ public class Agent implements Runnable {
 		return score;
 	}
 	
-	public int getDepthLimit(double timeLimit) {
-		return 9;
-	}
-	
 	public double alphaBetaSearch(double alpha, double beta, int prevMove, int depth, int depth_limit, double score, boolean x_move) {
 		
 		//if the previous move was a winning move, or the depth limit is
@@ -99,25 +95,34 @@ public class Agent implements Runnable {
 		bestMoveValue = BAD_MOVE_VALUE;
 		int bestMove = -1;
 		double timeLimit = timeLeft / 2;
-		int depth_limit = getDepthLimit(timeLimit);
-		
-		for (int move = 0; move < 9; move++) {
-			if (g.board[g.curBoard][move] != Game.EMPTY) continue;
-			if (bestMove == -1) bestMove = move;
-			g.board[g.curBoard][move] = Game.X_PIECE;
-			double score = moveScore(g.curBoard, move, true);
-			
-			double value = alphaBetaSearch(BAD_MOVE_VALUE, -BAD_MOVE_VALUE, 
-					move, 1, depth_limit, score, false);
-			
-			g.board[g.curBoard][move] = Game.EMPTY;
-			if (value > bestMoveValue) {
-				bestMoveValue = value;
-				bestMove = move;
+		Timer depthTimer = new Timer();
+		depthTimer.start();
+		double timeSoFar = 0;
+		double predictedTime = 0;
+		int depth_limit = 1;
+		while (timeSoFar + predictedTime < timeLimit) {
+			depthTimer.update();
+			bestMove = -1;
+			bestMoveValue = BAD_MOVE_VALUE;
+			for (int move = 0; move < 9; move++) {
+				if (g.board[g.curBoard][move] != Game.EMPTY) continue;
+				if (bestMove == -1) bestMove = move;
+				g.board[g.curBoard][move] = Game.X_PIECE;
+				double score = moveScore(g.curBoard, move, true);
+				
+				double value = alphaBetaSearch(BAD_MOVE_VALUE, -BAD_MOVE_VALUE, 
+						move, 1, depth_limit, score, false);
+				g.board[g.curBoard][move] = Game.EMPTY;
+				if (value > bestMoveValue) {
+					bestMoveValue = value;
+					bestMove = move;
+				}
 			}
+			double depthTime = depthTimer.getTimeS();
+			predictedTime = depthTime*9;
+			depth_limit++;
+			timeSoFar += depthTime;
 		}
-		
-		System.out.println("Search took: " + t.getTimeS());
 		timeLeft -= t.getTimeS();
 		System.out.println(bestMoveValue);
 		return bestMove;
