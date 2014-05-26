@@ -1,4 +1,3 @@
-
 import java.util.Random;
 
 public class Agent implements Runnable {
@@ -117,7 +116,7 @@ public class Agent implements Runnable {
 			}
 		}
 //		if(printSearchLimit > 0){
-			System.out.println("Search took: " + t.getTimeS());
+//			System.out.println("Search took: " + t.getTimeS());
 //			printSearchLimit--;
 //		}
 		
