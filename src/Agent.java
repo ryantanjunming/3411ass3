@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Agent implements Runnable {
@@ -33,6 +34,7 @@ public class Agent implements Runnable {
 			g.addPiece(move+1);
 			io.makeMove(move+1);
 		}
+		System.exit(0);
 	}
 	
 	public int getRandomMove() {
@@ -100,28 +102,46 @@ public class Agent implements Runnable {
 		double timeSoFar = 0;
 		double predictedTime = 0;
 		int depth_limit = 1;
+		
+		//for an index i, representing a move number, gonnaLose[i] contains the depth
+		//at which move i loses at.
+		int[] gonnaLose = new int[9];
+		for (int i = 0; i < 9; i++) gonnaLose[i] = 0;
 		while (timeSoFar + predictedTime < timeLimit) {
 			depthTimer.update();
 			bestMove = -1;
 			bestMoveValue = BAD_MOVE_VALUE;
 			for (int move = 0; move < 9; move++) {
-				if (g.board[g.curBoard][move] != Game.EMPTY) continue;
+				if (g.board[g.curBoard][move] != Game.EMPTY || gonnaLose[move] != 0) continue;
 				if (bestMove == -1) bestMove = move;
 				g.board[g.curBoard][move] = Game.X_PIECE;
 				double score = moveScore(g.curBoard, move, true);
 				
 				double value = alphaBetaSearch(BAD_MOVE_VALUE, -BAD_MOVE_VALUE, 
 						move, 1, depth_limit, score, false);
+				if (value <= BAD_MOVE_VALUE) {
+					gonnaLose[move] = depth_limit;
+				}
 				g.board[g.curBoard][move] = Game.EMPTY;
 				if (value > bestMoveValue) {
 					bestMoveValue = value;
 					bestMove = move;
 				}
 			}
+			if (bestMove == -1) break;
 			double depthTime = depthTimer.getTimeS();
 			predictedTime = depthTime*9;
 			depth_limit++;
 			timeSoFar += depthTime;
+		}
+		if (bestMove == -1) {
+			int loss_depth = 0;
+			for (int i = 0; i < 9; i++) {
+				if (gonnaLose[i] > loss_depth) {
+					bestMove = i;
+					loss_depth = gonnaLose[i];
+				}
+			}
 		}
 		timeLeft -= t.getTimeS();
 		System.out.println(bestMoveValue);
