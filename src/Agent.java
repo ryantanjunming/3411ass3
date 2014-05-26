@@ -5,6 +5,7 @@ public class Agent implements Runnable {
 	
 	public static final double INITIAL_TIME = 20.0;
 	public static final double TIME_PER_TURN = 2.0;
+	public int printSearchLimit = 5;
 	
 	Thread thread;
 	
@@ -49,17 +50,16 @@ public class Agent implements Runnable {
 		double score = 0.0;
 		if(ScoreChecker.gonnaWin(g.board[prevMove], (x_move) ? Game.X_PIECE : Game.Y_PIECE)){
 			return player * WIN_VALUE; //win move
-		} else{
-			score = player * ScoreChecker.preferenceScore(move) * 
-					ScoreChecker.leadsToBetterPositionScore(g, prevMove, (x_move) ? Game.X_PIECE : Game.Y_PIECE) *
-					ScoreChecker.leadsToBlockingScore(g.board[prevMove], move, (x_move) ? Game.Y_PIECE : Game.X_PIECE);
+		} else {
+			score = (ScoreChecker.preferenceScore(move) * 
+					ScoreChecker.leadsToBetterPositionScore(g, prevMove, move, x_move)) * player;
 		}
 		
 		return score;
 	}
 	
 	public int getDepthLimit(double timeLimit) {
-		return 9;
+		return 11;
 	}
 	
 	public double alphaBetaSearch(double alpha, double beta, int prevMove, int depth, int depth_limit, double score, boolean x_move) {
@@ -116,8 +116,12 @@ public class Agent implements Runnable {
 				bestMove = move;
 			}
 		}
+//		if(printSearchLimit > 0){
+			System.out.println("Search took: " + t.getTimeS());
+//			printSearchLimit--;
+//		}
 		
-		System.out.println("Search took: " + t.getTimeS());
+		
 		timeLeft -= t.getTimeS();
 		System.out.println(bestMoveValue);
 		return bestMove;

@@ -23,16 +23,10 @@ public class GameIO{
 		try{
 			
 			if(args[0].equals("-p") && args[1] != null){
-				 int portnum;
-				 if(args[1] == null){
-					 portnum = 12346;
-				 }else{
-					 portnum = Integer.parseInt(args[1]);
-				 }
+				 int portnum = Integer.parseInt(args[1]);
 				 socket = new Socket(InetAddress.getLocalHost().getHostName(), portnum);
 				 out = new PrintWriter(socket.getOutputStream(), true);
 				 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				
 			}else{
 				System.out.println("ERROR: Enter -p <port number>");
 			}
@@ -42,7 +36,7 @@ public class GameIO{
 			e.printStackTrace();
 		}catch(Exception e){
 			e.printStackTrace();
-		
+			System.exit(0);
 		}
 	}
 	
@@ -92,16 +86,28 @@ public class GameIO{
 				game_last_move(servArgs[0]);
 			} else if (call.equalsIgnoreCase("win")) {
 				game_win();
+				end_life();
 			} else if (call.equalsIgnoreCase("loss")) {
 				game_loss();
+				end_life();
 			} else if (call.equalsIgnoreCase("draw")) {
 				game_draw();
+				end_life();
 			} else if (call.equalsIgnoreCase("end")) {
 				game_end();
+				end_life();
 			}
 		}
 	}
 	
+	public void end_life(){
+		try {
+			socket.close();
+			System.exit(0);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void game_init(){
 		g.init();
@@ -131,9 +137,11 @@ public class GameIO{
 	public void game_last_move(String move){
 		this.g.addPiece(Integer.parseInt(move));
 		this.g.setToFinished();
+		
 	}
 	
 	public void game_win(){
+		System.out.println("home AI wins");
 		this.g.setToFinished();
 	}
 	
