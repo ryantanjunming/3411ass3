@@ -1,3 +1,4 @@
+
 import java.util.Random;
 
 public class Agent implements Runnable {
@@ -32,6 +33,7 @@ public class Agent implements Runnable {
 			g.addPiece(move+1);
 			io.makeMove(move+1);
 		}
+		System.exit(0);
 	}
 	
 	public int getRandomMove() {
