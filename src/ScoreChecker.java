@@ -48,17 +48,17 @@ public class ScoreChecker {
 		int bonus = 1;
 		for (int i = 0; i < WIN_POSITIONS.length; i++) {
 			if (g.board[bNum][WIN_POSITIONS[i][0]]==piece && g.board[bNum][WIN_POSITIONS[i][1]]==piece && g.board[bNum][WIN_POSITIONS[i][2]]==Game.EMPTY) {
-				bonus += 3000*mul;
+				bonus += 30*mul;
 			} else if (g.board[bNum][WIN_POSITIONS[i][0]]==Game.EMPTY && g.board[bNum][WIN_POSITIONS[i][1]]==piece && g.board[bNum][WIN_POSITIONS[i][2]]==piece) {
-				bonus += 3000*mul;
+				bonus += 30*mul;
 			} else if (g.board[bNum][WIN_POSITIONS[i][0]]==piece && g.board[bNum][WIN_POSITIONS[i][1]]==piece && g.board[bNum][WIN_POSITIONS[i][2]]==Game.EMPTY) {
-				bonus += 3000*mul;
+				bonus += 30*mul;
 			} else if((g.board[bNum][WIN_POSITIONS[i][0]]==opponent && g.board[bNum][WIN_POSITIONS[i][1]]==opponent && WIN_POSITIONS[i][2]==move)
 					|| (WIN_POSITIONS[i][0]==move && g.board[bNum][WIN_POSITIONS[i][1]]==opponent && g.board[bNum][WIN_POSITIONS[i][2]]==opponent)
 					|| (g.board[bNum][WIN_POSITIONS[i][0]]==opponent && WIN_POSITIONS[i][1]==move && g.board[bNum][WIN_POSITIONS[i][2]]==opponent)){
-				bonus += 1000*mul; //theres a possibility of blocking
+				bonus += 10*mul; //theres a possibility of blocking
 			} else if(g.board[bNum][WIN_POSITIONS[i][0]]==piece || g.board[bNum][WIN_POSITIONS[i][1]]==piece && g.board[bNum][WIN_POSITIONS[i][0]]==piece){
-				bonus += 1000*mul; //theres just a single piece alike
+				bonus += 10*mul; //theres just a single piece alike
 			}
 		}
 		
