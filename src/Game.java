@@ -1,4 +1,7 @@
 
+//Used to maintain the current state of the game.
+//The board is held as a 9x9 integer array, where board[i][j] = X_PIECE
+//represents that our piece is present in the j-th position in the i-th board.
 public class Game {
 	
 	public static final int X_PIECE = 0;
@@ -8,6 +11,7 @@ public class Game {
 	public int[][] board = new int[9][9];
 	public int curBoard = -1;
 	public int curPiece;
+	private int numMoves = 0;
 	public boolean isFinished;
 	
 	public void init() {
@@ -38,6 +42,7 @@ public class Game {
 	public void addPiece(int pos) {
 		board[curBoard][pos-1] = this.curPiece;
 		curBoard = pos-1;
+		numMoves++;
 		changeCurPiece();
 	}
 	
@@ -56,6 +61,10 @@ public class Game {
 	
 	public boolean isFinished() {
 		return this.isFinished;
+	}
+	
+	public int numMovesMade() {
+		return numMoves;
 	}
 	
 }

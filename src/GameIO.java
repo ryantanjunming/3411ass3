@@ -9,6 +9,8 @@ import java.net.Socket;
 import java.util.Map;
 
 
+//This class is used to connect to the server, and communicate
+//with it. 
 public class GameIO{
 	
 	public Game g;
@@ -20,7 +22,7 @@ public class GameIO{
 	public GameIO(Game g, String[] args){
 		this.g = g;
 		try{
-			
+		    //setup the socket, as well as the input and output streams.
 			if(args[0].equals("-p") && args[1] != null){
 				 int portnum = Integer.parseInt(args[1]);
 				 socket = new Socket(InetAddress.getLocalHost().getHostName(), portnum);
@@ -40,6 +42,9 @@ public class GameIO{
 	}
 	
 	public void run(){
+        //continuously trys to read from the input stream (ie, the server).
+        //It then retrieves the arguments, and passes it whichever method
+        //can handle the message.
 		while(!g.isFinished){
 			String readIn = null;
 			try {
@@ -51,22 +56,13 @@ public class GameIO{
 			if (readIn == null) continue;
 			String call = null;
 			String servArgs[] = null;
+            //Retrieve the arguments.
 			if (readIn.contains("(")) {
 				call = readIn.substring(0, readIn.indexOf('('));
 				servArgs = readIn.substring(readIn.indexOf('(')+1,readIn.indexOf(')')).split(",");
 			} else {
 				call = readIn.substring(0, readIn.indexOf('.'));
 			}
-			if (call != null) {
-				System.out.print(call);
-				if (servArgs != null) {
-					for (String s : servArgs) {
-						System.out.print(" " + s);
-					}
-				}
-				System.out.println();
-			}
-			
 			if (call.equalsIgnoreCase("init")) {
 				game_init();
 			} else if (call.equalsIgnoreCase("start")) {
