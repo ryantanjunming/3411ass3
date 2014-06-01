@@ -1,5 +1,4 @@
 
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -86,7 +85,7 @@ public class Agent implements Runnable {
 		if(ScoreChecker.gonnaWin(g.board[prevMove], (x_move) ? Game.X_PIECE : Game.Y_PIECE)){
 			return player * WIN_VALUE;
 		} else{
-			score = player * ScoreChecker.preferenceScore(move) * 
+			score = player * ScoreChecker.preferenceScore(move) +
 					ScoreChecker.leadsToBetterPositionScore(g, prevMove, move, x_move);
 	    }
 		

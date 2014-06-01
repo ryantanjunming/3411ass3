@@ -28,9 +28,9 @@ public class ScoreChecker {
 	public static int preferenceScore(int move){
 		
 		if(move == 4){
-			return 5; //is middle 
+			return 7; //is middle 
 		}else if(move == 0 || move == 2 || move == 6 || move == 8){ 
-			return 2;  //is corner
+			return 3;  //is corner
 		}
 		return 1;
 	}
