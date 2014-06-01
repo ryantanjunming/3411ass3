@@ -83,11 +83,12 @@ public class Agent implements Runnable {
 		int player = (x_move) ? 1 : -1;
 		double score = 0.0;
 		if(ScoreChecker.gonnaWin(g.board[prevMove], (x_move) ? Game.X_PIECE : Game.Y_PIECE)){
-			return player * WIN_VALUE;
+			return player * WIN_VALUE; //win move
 		} else{
-			score = player * ScoreChecker.preferenceScore(move) +
-					ScoreChecker.leadsToBetterPositionScore(g, prevMove, move, x_move);
-	    }
+			score = player * ScoreChecker.preferenceScore(move) * 
+					ScoreChecker.leadsToBetterPositionScore(g, prevMove, (x_move) ? Game.X_PIECE : Game.Y_PIECE) *
+					ScoreChecker.leadsToBlockingScore(g.board[prevMove], move, (x_move) ? Game.Y_PIECE : Game.X_PIECE);
+		}
 		
 		return score;
 	}
